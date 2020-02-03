@@ -1,0 +1,27 @@
+{
+  "name": "blog-server",
+  "version": "1.0.0",
+  "description": "博客后端api",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhangweiqiang666/blog-server.git"
+  },
+  "author": "zhangweiqiang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhangweiqiang666/blog-server/issues"
+  },
+  "homepage": "https://github.com/zhangweiqiang666/blog-server#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.8.11"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}

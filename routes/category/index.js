@@ -1,0 +1,10 @@
+const { Router } = require('express');
+const getCategory = require('./getCategory');
+const saveCategory = require('./saveCategory');
+const deleteCategory = require('./deleteCategory');
+const router = Router();
+// const filter = { password: 0, _v: 0 };
+module.exports = router;
+router.get('/list', (req, res) => getCategory(req, res));
+router.post('/save', (req, res) => saveCategory(req, res));
+router.post('/delete', (req, res) => deleteCategory(req, res));
