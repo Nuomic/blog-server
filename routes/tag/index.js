@@ -1,0 +1,10 @@
+const { Router } = require('express');
+const getTag = require('./getTag');
+const saveTag = require('./saveTag');
+const deleteTag = require('./deleteTag');
+const router = Router();
+// const filter = { password: 0, _v: 0 };
+module.exports = router;
+router.get('/list', (req, res) => getTag(req, res));
+router.post('/save', (req, res) => saveTag(req, res));
+router.post('/delete', (req, res) => deleteTag(req, res));

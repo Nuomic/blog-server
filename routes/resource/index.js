@@ -1,0 +1,10 @@
+const { Router } = require('express');
+const getResource = require('./getResource');
+const saveResource = require('./saveResource');
+const deleteResource = require('./deleteResource');
+const router = Router();
+// const filter = { password: 0, _v: 0 };
+module.exports = router;
+router.get('/list', (req, res) => getResource(req, res));
+router.post('/save', (req, res) => saveResource(req, res));
+router.post('/delete', (req, res) => deleteResource(req, res));

@@ -1,0 +1,10 @@
+const { Router } = require('express');
+const getFriend = require('./getFriend');
+const saveFriend = require('./saveFriend');
+const deleteFriend = require('./deleteFriend');
+const router = Router();
+// const filter = { password: 0, _v: 0 };
+module.exports = router;
+router.get('/list', (req, res) => getFriend(req, res));
+router.post('/save', (req, res) => saveFriend(req, res));
+router.post('/delete', (req, res) => deleteFriend(req, res));

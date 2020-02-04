@@ -26,6 +26,21 @@ module.exports = [
     name: '登录'
   },
   {
+    path: '/friend',
+    router: require('./routes/friend'),
+    name: '友情链接'
+  },
+  {
+    path: '/resource',
+    router: require('./routes/resource'),
+    name: '资源'
+  },
+  {
+    path: '/tag',
+    router: require('./routes/tag'),
+    name: '标签'
+  },
+  {
     path: '/setting',
     router: require('./routes/setting'),
     name: '设置'
