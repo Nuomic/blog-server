@@ -1,33 +1,17 @@
-const { resTemp } = require('../config');
+const { resTemp, errTemp } = require('../config');
 const { ArticleModel } = require('../../db');
 
 module.exports = (req, res) => {
-  const returnStatus = {
-    customerErrorMessage: '删除失败',
-    errorCode: '1',
-    isSuccess: false
-  };
-  const { articleId, status } = req.body;
+  const { articleId } = req.body;
   if (!!articleId) {
-    ArticleModel.findByIdAndDelete(articleId, err => {
-      if (!err) res.json({ ...resTemp });
+    ArticleModel.findByIdAndDelete(articleId, (err, article) => {
+      if (err) res.json(errTemp(err, '删除失败'));
       else {
-        res.json({
-          ...resTemp,
-          returnStatus: {
-            ...returnStatus,
-            errorMessage: err
-          }
-        });
+        (!!article && res.json(resTemp())) ||
+          res.json(errTemp(err, '文章不存在'));
       }
     });
   } else {
-    res.json({
-      ...resTemp,
-      returnStatus: {
-        ...returnStatus,
-        errorMessage: err
-      }
-    });
+    res.json(errTemp(err, '参数错误 请传入articleId'));
   }
 };

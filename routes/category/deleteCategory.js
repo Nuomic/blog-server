@@ -1,33 +1,16 @@
-const { resTemp } = require('../config');
+const { resTemp, errTemp } = require('../config');
 const { CategoryModel } = require('../../db');
 
 module.exports = (req, res) => {
-  const returnStatus = {
-    customerErrorMessage: '删除失败',
-    errorCode: '1',
-    isSuccess: false
-  };
   const { categoryId } = req.body;
   if (!!categoryId) {
     CategoryModel.findByIdAndDelete(categoryId, err => {
-      if (!err) res.json({ ...resTemp });
+      if (!err) res.json(resTemp());
       else {
-        res.json({
-          ...resTemp,
-          returnStatus: {
-            ...returnStatus,
-            errorMessage: err
-          }
-        });
+        res.json(errTemp(err, ''));
       }
     });
   } else {
-    res.json({
-      ...resTemp,
-      returnStatus: {
-        ...returnStatus,
-        errorMessage: err
-      }
-    });
+    res.json(errTemp(err, ''));
   }
 };

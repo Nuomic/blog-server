@@ -1,4 +1,4 @@
-const { resTemp } = require('../config');
+const { resTemp, errTemp } = require('../config');
 const { CategoryModel } = require('../../db');
 module.exports = (req, res) => {
   const { categoryId } = req.query;
@@ -27,17 +27,10 @@ module.exports = (req, res) => {
       ],
       (err, category) => {
         if (err) {
-          res.json(
-            //服务端解析成JSON后响应
-            err
-          );
+          res.json(errTemp(err, ''));
           return;
         }
-        res.json({
-          //服务端解析成JSON后响应
-          ...resTemp,
-          categoryList: category
-        });
+        res.json(resTemp('categoryList', category));
       }
     );
   }

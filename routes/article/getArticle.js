@@ -1,43 +1,57 @@
-const { resTemp } = require('../config');
-const { CategoryModel } = require('../../db');
+const { resTemp, errTemp } = require('../config');
+const { ArticleModel } = require('../../db');
 module.exports = (req, res) => {
-  const { categoryId } = req.query;
+  /* 文章获取列表
+   *1.默认查找全部
+   *2.查找栏目获取 参数 categoryId
+   *3.通过标签获取 参数 tagId
+   * ***** */
+  const { categoryId, tagId } = req.query;
   console.log('==========================', req.cookies);
   if (!!categoryId) {
+  } else if (!!tagId) {
   } else {
-    CategoryModel.aggregate(
+    ArticleModel.aggregate(
       [
         {
           $lookup: {
-            from: 'articles',
+            from: 'comments',
             localField: '_id',
-            foreignField: 'categoryId',
-            as: 'article'
+            foreignField: 'articleId',
+            as: 'comments'
           }
         },
+        {
+          $lookup: {
+            from: 'categories',
+            localField: 'categoryId',
+            foreignField: '_id',
+            as: 'categoryInfo'
+          }
+        },
+        { $unwind: '$categoryInfo' },
         {
           $project: {
             id: '$_id',
             _id: 0,
+            date: 1,
+            viewCount: 1,
+            likeCount: 1,
+            title: 1,
+            content: 1,
             name: 1,
+            categoryInfo: 1,
             avatar: 1,
-            date: '$createdAt'
+            commentCount: { $size: '$comments' }
           }
         }
       ],
-      (err, category) => {
+      (err, article) => {
         if (err) {
-          res.json(
-            //服务端解析成JSON后响应
-            err
-          );
+          res.json(errTemp(err, ''));
           return;
         }
-        res.json({
-          //服务端解析成JSON后响应
-          ...resTemp,
-          categoryList: category
-        });
+        res.json(resTemp('articleList', article));
       }
     );
   }

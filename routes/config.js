@@ -1,14 +1,18 @@
-exports.resTemp = {
-  ResponseStatus: {
-    Ack: 'Success',
-    Timestamp: new Date()
-  },
-  returnStatus: {
-    customerErrorMessage: null,
-    errorCode: '0',
-    errorMessage: null,
-    isSuccess: true
-  }
+exports.resTemp = (name, data) => {
+  let res = {
+    ResponseStatus: {
+      Ack: 'Success',
+      Timestamp: new Date()
+    },
+    returnStatus: {
+      customerErrorMessage: null,
+      errorCode: '0',
+      errorMessage: null,
+      isSuccess: true
+    }
+  };
+  if (name) res[name] = data;
+  return res;
 };
 exports.errTemp = (err, customerErrorMessage) => {
   console.log('err', err);
@@ -19,8 +23,8 @@ exports.errTemp = (err, customerErrorMessage) => {
     },
     returnStatus: {
       customerErrorMessage,
-      errorCode: '1',
-      errorMessage: err,
+      errorCode: err.code,
+      errorMessage: err.errmsg,
       isSuccess: false
     }
   };

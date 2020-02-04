@@ -12,17 +12,10 @@ module.exports = (req, res) => {
   } else {
     CategoryModel.aggregate([{}], (err, category) => {
       if (err) {
-        res.json(
-          //服务端解析成JSON后响应
-          err
-        );
+        res.json(errTemp(err, ''));
         return;
       }
-      res.json({
-        //服务端解析成JSON后响应
-        ...resTemp,
-        categoryList: category
-      });
+      res.json(resTemp());
     });
   }
 };

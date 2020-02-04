@@ -7,7 +7,7 @@ module.exports = (req, res) => {
       console.log('comment', comment);
       if (err) res.json(errTemp(err, '删除失败'));
       else {
-        comment && res.json({ ...resTemp });
+        comment && res.json(resTemp());
         !comment && res.json(errTemp(err, '评论不存在'));
       }
     });
