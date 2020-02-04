@@ -8,16 +8,10 @@ module.exports = (req, res) => {
   if (!id) {
     CategoryModel.create(
       {
-        ...value,
-        avatar:
-          value.avatar ||
-          'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-        articleCount: 0
+        ...value
       },
       (err, category) => {
-        category = { id: category._id, ...category._doc };
-        delete category._id;
-        if (!err) res.json(resTemp());
+        if (!err) res.json(resTemp('category', category));
         else {
           res.json(errTemp(err, ''));
         }

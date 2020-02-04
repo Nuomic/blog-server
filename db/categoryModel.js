@@ -6,7 +6,11 @@ const categorySchema = Schema(
     id: Schema.Types.ObjectId,
     name: { type: String, required: true },
     summary: String,
-    avatar: String
+    avatar: {
+      type: String,
+      default:
+        'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png'
+    }
   },
   { timestamps: true }
 );
