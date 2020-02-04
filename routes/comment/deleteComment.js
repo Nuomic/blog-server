@@ -1,33 +1,17 @@
-const { resTemp } = require('../config');
-const { CategoryModel } = require('../../db');
-
+const { resTemp, errTemp } = require('../config');
+const { CommentModel } = require('../../db');
 module.exports = (req, res) => {
-  const returnStatus = {
-    customerErrorMessage: '删除失败',
-    errorCode: '1',
-    isSuccess: false
-  };
-  const { categoryId } = req.body;
-  if (!!categoryId) {
-    CategoryModel.findByIdAndDelete(categoryId, err => {
-      if (!err) res.json({ ...resTemp });
+  const { commentId } = req.body;
+  if (!!commentId) {
+    CommentModel.findByIdAndDelete(commentId, (err, comment) => {
+      console.log('comment', comment);
+      if (err) res.json(errTemp(err, '删除失败'));
       else {
-        res.json({
-          ...resTemp,
-          returnStatus: {
-            ...returnStatus,
-            errorMessage: err
-          }
-        });
+        comment && res.json({ ...resTemp });
+        !comment && res.json(errTemp(err, '评论不存在'));
       }
     });
   } else {
-    res.json({
-      ...resTemp,
-      returnStatus: {
-        ...returnStatus,
-        errorMessage: err
-      }
-    });
+    res.json(errTemp(err, '评论不存在'));
   }
 };
