@@ -16,6 +16,11 @@ module.exports = [
     name: '文章'
   },
   {
+    path: '/comment',
+    router: require('./routes/comment'),
+    name: '评论'
+  },
+  {
     path: '/login',
     router: require('./routes/login'),
     name: '登录'
