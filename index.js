@@ -11,6 +11,11 @@ module.exports = [
     name: '栏目'
   },
   {
+    path: '/article',
+    router: require('./routes/article'),
+    name: '文章'
+  },
+  {
     path: '/login',
     router: require('./routes/login'),
     name: '登录'
