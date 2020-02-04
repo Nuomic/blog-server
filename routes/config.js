@@ -1,4 +1,4 @@
-exports.resTemp = (name, data) => {
+const resTemp = (name, data) => {
   let res = {
     ResponseStatus: {
       Ack: 'Success',
@@ -14,7 +14,7 @@ exports.resTemp = (name, data) => {
   if (name) res[name] = data;
   return res;
 };
-exports.errTemp = (err, customerErrorMessage) => {
+const errTemp = (err, customerErrorMessage) => {
   console.log('err', err);
   return {
     ResponseStatus: {
@@ -23,16 +23,29 @@ exports.errTemp = (err, customerErrorMessage) => {
     },
     returnStatus: {
       customerErrorMessage,
-      errorCode: err.code,
-      errorMessage: err.errmsg,
+      errorCode: err.code || null,
+      errorMessage: err.errmsg || null,
       isSuccess: false
     }
   };
 };
-exports.dataTemp = data => {
-  return data.map(item => {
-    let id = item._id;
-    delete item._doc._id;
-    return { id, ...item._doc };
-  });
+const dataTemp = data => {
+  if (!Array.isArray(data)) {
+    let id = data._id;
+    delete data._doc._id;
+    return { id, ...data._doc };
+  } else
+    return data.map(item => {
+      let id = item._id;
+      delete item._doc._id;
+      return { id, ...item._doc };
+    });
+};
+// const getTemp = ()={
+
+// }
+module.exports = {
+  resTemp,
+  errTemp,
+  dataTemp
 };
