@@ -6,8 +6,7 @@ const categorySchema = Schema(
     id: Schema.Types.ObjectId,
     name: { type: String, required: true },
     summary: String,
-    avatar: String,
-    articleCount: Number
+    avatar: String
   },
   { timestamps: true }
 );
