@@ -7,10 +7,10 @@ module.exports = (req, res) => {
       res.json(errTemp(err, '数据库出错'));
       return;
     }
-    (!!friend && res.json(resTemp('friend', dataTemp(friend)))) ||
+    (!!friend && res.json(resTemp('friendList', dataTemp(friend)))) ||
       res.json(errTemp(err, '数据不存在'));
   };
   !!friendId
     ? FriendModel.findById(friendId, getFriend)
-    : FriendModel.find(getFriend);
+    : FriendModel.find(null, null, { sort: [{ _id: -1 }] }, getFriend);
 };

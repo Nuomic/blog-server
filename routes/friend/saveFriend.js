@@ -5,17 +5,13 @@ module.exports = (req, res) => {
   if (!!friendId) {
     FriendModel.findByIdAndUpdate(friendId, value, (err, friend) => {
       if (!!err) return res.json(errTemp(err, '数据库错误，保存失败'));
-      if (!!friend) res.json(resTemp('friend', friend));
-      else {
+      (!!friend && res.json(resTemp('friend', friend))) ||
         res.json(errTemp(err, '保存失败，此数据不存在'));
-      }
     });
   } else {
     //friendId未传 则创建
     FriendModel.create(value, (err, friend) => {
       if (!!err) return res.json(errTemp(err, '数据库错误，保存失败'));
-
-      console.log('friend', friend);
       res.json(resTemp('friend', dataTemp(friend)));
     });
   }
