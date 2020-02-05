@@ -10,7 +10,7 @@ const articleSchema = Schema(
     // commentCount: { type: Number, default: 0 },
     title: { type: String, required: true },
     content: { type: String, required: true },
-    status: { type: String, required: true, default: 1 }
+    status: { type: String, required: true, default: '1' }
   },
   { timestamps: true }
 );

@@ -1,4 +1,4 @@
-const { resTemp, errTemp } = require('../config');
+const { resTemp, errTemp, dataTemp } = require('../config');
 const { ArticleModel } = require('../../db');
 module.exports = (req, res) => {
   /* 文章获取列表
@@ -40,13 +40,21 @@ module.exports = (req, res) => {
             title: 1,
             content: 1,
             name: 1,
-            categoryInfo: 1,
+            categoryInfo: {
+              id: '$categoryInfo._id',
+              name: '$categoryInfo.name',
+              avatar: '$categoryInfo.avatar'
+            },
+            status: 1,
+            createdAt: 1,
             avatar: 1,
             commentCount: { $size: '$comments' }
           }
-        }
+        },
+        { $sort: { id: -1 } }
       ],
       (err, article) => {
+        console.log('article', article);
         if (err) {
           res.json(errTemp(err, ''));
           return;

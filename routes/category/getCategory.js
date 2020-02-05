@@ -23,7 +23,8 @@ module.exports = (req, res) => {
             avatar: 1,
             articleCount: { $size: '$article' }
           }
-        }
+        },
+        { $sort: { id: -1 } }
       ],
       (err, category) => {
         if (err) {

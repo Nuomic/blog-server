@@ -1,14 +1,11 @@
-const { resTemp, errTemp } = require('../config');
+const { resTemp, errTemp, dataTemp } = require('../config');
 const { ArticleModel } = require('../../db');
 
 module.exports = (req, res) => {
-  console.log('req.body', req.body);
-  const { id, updatedAt, createdAt, ...value } = req.body;
+  const { id, ...value } = req.body;
   if (!id) {
     ArticleModel.create(value, (err, article) => {
-      article = { id: article._id, ...article._doc };
-      delete article._id;
-      if (!err) res.json(resTemp('article', article));
+      if (!err) res.json(resTemp('article', dataTemp(article)));
       else {
         res.json(errTemp(err, ''));
       }
