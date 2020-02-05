@@ -4,7 +4,7 @@ const { Schema, model } = require('mongoose');
 const categorySchema = Schema(
   {
     id: Schema.Types.ObjectId,
-    name: { type: String, required: true },
+    name: { type: String, required: true, unique: true },
     summary: String,
     avatar: {
       type: String,

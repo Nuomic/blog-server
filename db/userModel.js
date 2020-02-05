@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 //定义描述文档结构
 const userSchema = Schema({
-  username: { type: String, required: true },
+  username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   email: { type: String, required: true },
   registrantionTime: { type: Date, required: true },
