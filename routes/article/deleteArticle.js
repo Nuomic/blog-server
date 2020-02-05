@@ -3,9 +3,10 @@ const { ArticleModel } = require('../../db');
 
 module.exports = (req, res) => {
   const { articleId } = req.body;
+  console.log('articleId', articleId);
   if (!!articleId) {
     ArticleModel.findByIdAndDelete(articleId, (err, article) => {
-      if (err) res.json(errTemp(err, '删除失败'));
+      if (err) return res.json(errTemp(err, '删除失败'));
       else {
         (!!article && res.json(resTemp())) ||
           res.json(errTemp(err, '文章不存在'));
