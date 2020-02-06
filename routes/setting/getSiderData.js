@@ -6,20 +6,28 @@ const {
 } = require('../../db');
 const { resTemp, errTemp } = require('../config');
 module.exports = async (req, res) => {
-  const categoryList = await CategoryModel.aggregate()
+  const category = await CategoryModel.aggregate()
     .lookup({
       from: 'articles',
       localField: '_id',
       foreignField: 'categoryId',
       as: 'article'
     })
+    .sort({ _id: -1 })
     .project({
       id: '$_id',
       _id: 0,
       name: 1,
-      articleCount: { $size: '$article' }
-    })
-    .sort({ articleCount: -1 });
+      article: 1
+    });
+
+  const categoryList = category.map(item => {
+    !!item.article.length &&
+      (item.article = item.article.filter(item => item.status == '1'));
+    item.articleCount = item.article.length;
+    delete item.article;
+    return item;
+  });
   const tagList = await TagModel.aggregate().project({
     _id: 0,
     id: '$_id',

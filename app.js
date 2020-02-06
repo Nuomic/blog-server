@@ -16,7 +16,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //允许 http://localhost:3000 跨域访问
 app.all('*', function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  const origin = 'http://' + req.host + ':3000';
+  console.log('origin==========================================', origin);
+  res.header('Access-Control-Allow-Origin', origin);
   res.header(
     'Access-Control-Allow-Headers',
     'Content-Type,Content-Length, Authorization, Accept,X-Requested-With'
