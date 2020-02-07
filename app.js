@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
 var config = require('./config');
 // 引入 API  Router
 var routes = require('./routes');
@@ -13,11 +14,9 @@ app.use(express.static(staticPath));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
 //允许 http://localhost:3000 跨域访问
 app.all('*', function(req, res, next) {
   const origin = 'http://' + req.host + ':3000';
-  console.log('origin==========================================', origin);
   res.header('Access-Control-Allow-Origin', origin);
   res.header(
     'Access-Control-Allow-Headers',
