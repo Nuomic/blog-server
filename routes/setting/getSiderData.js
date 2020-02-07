@@ -14,6 +14,7 @@ module.exports = async (req, res) => {
       as: 'article'
     })
     .sort({ _id: -1 })
+    .match({ name: { $ne: '草稿' } })
     .project({
       id: '$_id',
       _id: 0,

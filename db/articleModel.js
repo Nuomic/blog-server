@@ -6,9 +6,9 @@ const articleSchema = Schema(
     categoryId: {
       type: Schema.Types.ObjectId,
       required: true,
-      default: '5e3a26d58766592fac406e1f'
+      default: '5e3d00cf765d392e685654b3'
     },
-    tagIds: { type: Array, default: [] },
+    tags: { type: Array, default: [] },
     viewCount: { type: Number, default: 0 },
     likeCount: { type: Number, default: 0 },
     // commentCount: { type: Number, default: 0 },

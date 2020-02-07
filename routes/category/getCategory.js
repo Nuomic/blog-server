@@ -15,6 +15,7 @@ module.exports = (req, res) => {
             as: 'article'
           }
         },
+        { $match: { name: { $ne: '草稿' } } },
         {
           $project: {
             id: '$_id',

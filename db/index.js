@@ -8,8 +8,25 @@ const commentModel = require('./commentModel');
 const tagModel = require('./tagModel');
 const settingModel = require('./settingModel');
 const { dbUrl } = require('../config');
+//配置连接参数 断开重连
+const options = {
+  server: {
+    socketOptions: {
+      keepAlive: 1,
+      connectTimeoutMS: 30000
+    },
+    reconnectTries: 30,
+    reconnectInterval: 3000
+  },
+  replset: {
+    socketOptions: {
+      keepAlive: 1,
+      connectTimeoutMS: 30000
+    }
+  }
+};
 // 1.1 连接数据库
-connect(dbUrl);
+connect(dbUrl, options);
 //1.2 获取连接对象
 const conn = connection;
 // 1.3 绑定连接完成的监听
