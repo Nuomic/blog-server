@@ -30,7 +30,6 @@ module.exports = (req, res) => {
       $project: {
         id: '$_id',
         _id: 0,
-        date: 1,
         viewCount: 1,
         likeCount: 1,
         title: 1,
