@@ -12,7 +12,7 @@ module.exports = (req, res) => {
     });
   } else {
     ArticleModel.findByIdAndUpdate(id, value, err => {
-      if (!err) res.json(resTemp);
+      if (!err) res.json(resTemp());
       else {
         res.json(errTemp(err, ''));
       }
