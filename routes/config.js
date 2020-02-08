@@ -1,4 +1,6 @@
 const resTemp = (name, data) => {
+  data = data || {};
+  if (name) data = { [name]: data };
   let res = {
     ResponseStatus: {
       Ack: 'Success',
@@ -9,9 +11,9 @@ const resTemp = (name, data) => {
       errorCode: '0',
       errorMessage: null,
       isSuccess: true
-    }
+    },
+    ...data
   };
-  if (name) res[name] = data;
   return res;
 };
 const errTemp = (err, customerErrorMessage) => {

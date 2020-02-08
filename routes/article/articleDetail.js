@@ -1,6 +1,6 @@
 const { resTemp, errTemp, dataTemp } = require('../config');
 const { ArticleModel, TagModel } = require('../../db');
-const Schema = require('mongoose');
+const { Types } = require('mongoose');
 module.exports = async (req, res) => {
   /* 前台文章详情页
    *1.栏目名称
@@ -8,8 +8,8 @@ module.exports = async (req, res) => {
    *3.通过标签获取 参数 tagId
    * ***** */
   const { articleId } = req.query;
-  console.log('articleId==============', articleId);
-  console.log('==========================', req.cookies);
+  console.log('=====articleId==article=======', articleId);
+  console.log('=============cookies=============', req.cookies);
   const Article = ArticleModel.aggregate()
     .lookup({
       from: 'categories',
@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
 
   const callback = async (err, article) => {
     let current = await Article.match({
-      id: Schema.Types.ObjectId(articleId)
+      id: Types.ObjectId(articleId)
     }).exec();
     console.log('current', current[0]);
     current = current[0];
