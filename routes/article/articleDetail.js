@@ -2,13 +2,13 @@ const { resTemp, errTemp, dataTemp } = require('../config');
 const { ArticleModel, TagModel } = require('../../db');
 const Schema = require('mongoose');
 module.exports = async (req, res) => {
-  /* 文章详情页
+  /* 前台文章详情页
    *1.栏目名称
    *2.查找栏目获取 参数 categoryId
    *3.通过标签获取 参数 tagId
    * ***** */
   const { articleId } = req.query;
-  console.log('articleId', articleId);
+  console.log('articleId==============', articleId);
   console.log('==========================', req.cookies);
   const Article = ArticleModel.aggregate()
     .lookup({
@@ -61,9 +61,9 @@ module.exports = async (req, res) => {
           title: article[index + 1].title
         };
       }
-
       TagModel.find({ name: { $in: current.tags } }, (err, tag) => {
         current.tagList = dataTemp(tag);
+        delete current.tags;
         res.json(resTemp('articleDetail', current));
       });
     }
