@@ -5,7 +5,7 @@ module.exports = (req, res) => {
   const { id, ...value } = req.body;
   if (!id) {
     ArticleModel.create(value, (err, article) => {
-      if (!err) res.json(resTemp('article', dataTemp(article)));
+      if (!err) res.json(resTemp({ article: dataTemp(article) }));
       else {
         res.json(errTemp(err, ''));
       }

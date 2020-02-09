@@ -22,7 +22,7 @@ module.exports = (req, res) => {
   if (!!tagId) {
     TagModel.findByIdAndUpdate(tagId, value, (err, tag) => {
       if (!!err) return res.json(errTemp(err, '数据库错误，保存失败'));
-      (!!tag && res.json(resTemp('tag', tag))) ||
+      (!!tag && res.json(resTemp({ tag }))) ||
         res.json(errTemp(err, '保存失败，此数据不存在'));
     });
   } else {
@@ -35,7 +35,7 @@ module.exports = (req, res) => {
             err.code === 11000 ? '该标签已存在' : '数据库错误，保存失败'
           )
         );
-      res.json(resTemp('tag', dataTemp(tag)));
+      res.json(resTemp({ tag: dataTemp(tag) }));
     });
   }
 };

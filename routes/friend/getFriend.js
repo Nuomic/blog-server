@@ -7,7 +7,7 @@ module.exports = (req, res) => {
       res.json(errTemp(err, '数据库出错'));
       return;
     }
-    (!!friend && res.json(resTemp('friendList', dataTemp(friend)))) ||
+    (!!friend && res.json(resTemp({ friendList: dataTemp(friend) }))) ||
       res.json(errTemp(err, '数据不存在'));
   };
   !!friendId

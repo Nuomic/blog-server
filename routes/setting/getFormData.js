@@ -20,5 +20,5 @@ module.exports = async (req, res) => {
       name: 1
     });
   console.log('tagList', tagList);
-  res.json(resTemp('formData', { categoryList, tagList }));
+  res.json(resTemp({ formData: { categoryList, tagList } }));
 };

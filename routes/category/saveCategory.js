@@ -11,7 +11,7 @@ module.exports = (req, res) => {
         ...value
       },
       (err, category) => {
-        if (!err) res.json(resTemp('category', category));
+        if (!err) res.json(resTemp({ category }));
         else {
           res.json(errTemp(err, ''));
         }
@@ -19,7 +19,7 @@ module.exports = (req, res) => {
     );
   } else {
     CategoryModel.findByIdAndUpdate(id, value, (err, category) => {
-      if (!err) res.json(resTemp('category', category));
+      if (!err) res.json(resTemp({ category }));
       else {
         res.json(errTemp(err, ''));
       }

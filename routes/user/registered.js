@@ -1,25 +1,17 @@
 const { UserModel } = require('../../db');
-const { resTemp } = require('../config');
+const { resTemp, errTemp } = require('../config');
 const filter = { password: 0, _v: 0 };
 module.exports = (req, res) => {
   const { username, password, userid } = req.body;
   if (userid) {
   } else
-    UserModel.findOne({ username }, (err, user) => {
+    UserModel.findOne({ username }, (err, userInfo) => {
       if (user) {
         res.cookie('userid', user._id, { maxAge: 1000 * 60 * 60 * 24 * 30 });
-        res.json({
-          //服务端解析成JSON后响应
-          ...resTemp,
-          userInfo: user
-        });
+        //服务端解析成JSON后响应
+        res.json(resTemp({ userInfo }));
       } else {
-        let { returnStatus } = resTemp;
-        returnStatus = {
-          ...returnStatus,
-          isSuccess: false
-        };
-        res.send({ ...resTemp, ...returnStatus });
+        res.send(errTemp(err, ''));
       }
     });
 };

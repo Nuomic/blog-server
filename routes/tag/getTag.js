@@ -7,7 +7,7 @@ module.exports = (req, res) => {
       res.json(errTemp(err, '数据库出错'));
       return;
     }
-    (!!tag && res.json(resTemp('tagList', dataTemp(tag)))) ||
+    (!!tag && res.json(resTemp({ tagList: dataTemp(tag) }))) ||
       res.json(errTemp(err, '数据不存在'));
   };
   !!tagId

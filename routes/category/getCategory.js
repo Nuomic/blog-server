@@ -2,7 +2,7 @@ const { resTemp, errTemp } = require('../config');
 const { CategoryModel } = require('../../db');
 module.exports = (req, res) => {
   const { categoryId } = req.query;
-  console.log('==========================', req.cookies);
+  console.log('============cookies==============', req.cookies);
   if (!!categoryId) {
   } else {
     CategoryModel.aggregate(
@@ -27,12 +27,12 @@ module.exports = (req, res) => {
         },
         { $sort: { id: -1 } }
       ],
-      (err, category) => {
+      (err, articleList) => {
         if (err) {
           res.json(errTemp(err, ''));
           return;
         }
-        res.json(resTemp('categoryList', category));
+        res.json(resTemp({ articleList }));
       }
     );
   }

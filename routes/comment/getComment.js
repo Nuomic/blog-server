@@ -49,14 +49,14 @@ module.exports = (req, res) => {
     //返回最终的结果
     return parents;
   }
-  const callback = (err, comment) => {
+  const callback = (err, commentList) => {
     total = comment.length;
     comment = translateDataToTree(comment);
     if (err) {
       res.json(errTemp(err, ''));
       return;
     }
-    res.json(resTemp(null, { total, commentList: comment }));
+    res.json(resTemp({ total, commentList }));
   };
   if (!!articleId) {
     commentList.match({ articleId: Types.ObjectId(articleId) }).exec(callback);
@@ -83,12 +83,12 @@ module.exports = (req, res) => {
         avatar: 1,
         isMine: 1
       })
-      .exec((err, comment) => {
+      .exec((err, commentList) => {
         if (err) {
           res.json(errTemp(err, ''));
           return;
         }
-        res.json(resTemp(null, { commentList: comment }));
+        res.json(resTemp({ commentList }));
       });
   } else {
     commentList.match({ articleId: null }).exec(callback);

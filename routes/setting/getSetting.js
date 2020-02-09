@@ -5,7 +5,9 @@ module.exports = (req, res) => {
   SettingModel.findOne({}, (err, setting) => {
     if (setting) {
       res.json(
-        resTemp(type, { id: setting.toJSON()._id, ...setting.toJSON()[type] })
+        resTemp({
+          [type]: { id: setting.toJSON()._id, ...setting.toJSON()[type] }
+        })
       );
     } else {
       res.json(errTemp(err, ''));

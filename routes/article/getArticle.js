@@ -87,7 +87,7 @@ module.exports = (req, res) => {
         res.json(errTemp(err, ''));
         return;
       }
-      res.json(resTemp('article', dataTemp(article)));
+      res.json(resTemp({ article: dataTemp(article) }));
     });
   } else if (!!categoryId) {
   } else if (!!tagId) {

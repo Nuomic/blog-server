@@ -63,6 +63,8 @@ module.exports = async (req, res) => {
       createdAt: 1
     });
   res.json(
-    resTemp('siderData', { categoryList, tagList, links, hotList, latestList })
+    resTemp({
+      siderData: { categoryList, tagList, links, hotList, latestList }
+    })
   );
 };

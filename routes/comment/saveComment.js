@@ -13,7 +13,7 @@ module.exports = (req, res) => {
       res.json(errTemp(err, '保存失败'));
       return;
     } else {
-      res.json(resTemp('comment', comment));
+      res.json(resTemp({ comment }));
     }
   });
 };
