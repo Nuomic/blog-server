@@ -7,7 +7,7 @@ module.exports = (req, res) => {
   if (!!articleId) {
     ArticleModel.findByIdAndUpdate(articleId, { status }, (err, article) => {
       if (!!err) return res.json(errTemp(err, ''));
-      (!!article && res.json(resTemp('article', article))) ||
+      (!!article && res.json(resTemp({ article }))) ||
         res.json(errTemp(err, ''));
     });
   } else {

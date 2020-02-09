@@ -7,7 +7,7 @@ module.exports = (req, res) => {
    *文章的评论 articleId 不为null
    *前台返回处理之后的评论
    */
-  const { articleId } = req.query;
+  const { articleId, all } = req.query;
   console.log('=============cookies=============', req.cookies);
   const commentList = CommentModel.aggregate()
     .sort({ _id: -1 })
@@ -60,6 +60,36 @@ module.exports = (req, res) => {
   };
   if (!!articleId) {
     commentList.match({ articleId: Types.ObjectId(articleId) }).exec(callback);
+  } else if (all) {
+    commentList
+      .lookup({
+        from: 'articles',
+        localField: 'articleId',
+        foreignField: '_id',
+        as: 'articleInfo'
+      })
+      .unwind({ path: '$articleInfo', preserveNullAndEmptyArrays: true })
+      .project({
+        id: 1,
+        parentId: 1,
+        articleInfo: {
+          id: '$articleInfo._id',
+          title: 1
+        },
+        nickname: 1,
+        email: 1,
+        date: 1,
+        content: 1,
+        avatar: 1,
+        isMine: 1
+      })
+      .exec((err, comment) => {
+        if (err) {
+          res.json(errTemp(err, ''));
+          return;
+        }
+        res.json(resTemp(null, { commentList: comment }));
+      });
   } else {
     commentList.match({ articleId: null }).exec(callback);
   }

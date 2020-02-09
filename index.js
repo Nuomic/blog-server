@@ -21,9 +21,9 @@ module.exports = [
     name: '评论'
   },
   {
-    path: '/login',
-    router: require('./routes/login'),
-    name: '登录'
+    path: '/user',
+    router: require('./routes/user'),
+    name: '用户'
   },
   {
     path: '/friend',

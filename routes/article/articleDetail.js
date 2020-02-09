@@ -40,7 +40,6 @@ module.exports = async (req, res) => {
     let current = await Article.match({
       id: Types.ObjectId(articleId)
     }).exec();
-    console.log('current', current[0]);
     current = current[0];
     if (err || !current) {
       res.json(errTemp(err, ''));
@@ -64,7 +63,7 @@ module.exports = async (req, res) => {
       TagModel.find({ name: { $in: current.tags } }, (err, tag) => {
         current.tagList = dataTemp(tag);
         delete current.tags;
-        res.json(resTemp('articleDetail', current));
+        res.json(resTemp({ articleDetail: current }));
       });
     }
   };

@@ -1,14 +1,11 @@
-const { Router } = require('express');
 const { UserModel } = require('../../db');
 const { resTemp } = require('../config');
-const router = Router();
 const filter = { password: 0, _v: 0 };
-module.exports = router;
-router.post('/', function(req, res) {
+module.exports = (req, res) => {
   const { username, password, userid } = req.body;
   if (userid) {
   } else
-    UserModel.findOne({ username, password }, filter, (err, user) => {
+    UserModel.findOne({ username }, (err, user) => {
       if (user) {
         res.cookie('userid', user._id, { maxAge: 1000 * 60 * 60 * 24 * 30 });
         res.json({
@@ -25,4 +22,4 @@ router.post('/', function(req, res) {
         res.send({ ...resTemp, ...returnStatus });
       }
     });
-});
+};

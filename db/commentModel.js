@@ -9,7 +9,11 @@ const commentSchema = Schema(
     email: { type: String, required: true },
     content: { type: String, required: true },
     isMine: { type: Boolean, default: false },
-    avatar: { type: String, default: '' },
+    avatar: {
+      type: String,
+      default:
+        'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
+    },
     dislikeCount: { type: Number, default: 0 },
     likeCount: { type: Number, default: 0 }
   },

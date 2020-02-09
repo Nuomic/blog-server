@@ -1,6 +1,5 @@
-const resTemp = (name, data) => {
+const resTemp = data => {
   data = data || {};
-  if (name) data = { [name]: data };
   let res = {
     ResponseStatus: {
       Ack: 'Success',

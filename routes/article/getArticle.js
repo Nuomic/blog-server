@@ -66,15 +66,15 @@ module.exports = (req, res) => {
         .replace(/\~\~(.*?)\~\~/g, '') //全局匹配删除线
         .replace(/[\s]*[-\*\+]+(.*)/g, '') //全局匹配无序列表
         .replace(/[\s]*[0-9]+\.(.*)/g, '') //全局匹配有序列表
-        .replace(/(#+)(.*)/g, '') //全局匹配标题
-        .replace(/(>+)(.*)/g, '') //全局匹配摘要
+        .replace(/(#+)/g, '') //全局匹配标题
+        .replace(/(>+)/g, '') //全局匹配摘要
         .replace(/\r\n/g, '') //全局匹配换行
         .replace(/\n/g, '') //全局匹配换行
         .replace(/\s/g, '')
-        .slice(0, 200);
+        .slice(0, 150);
       return item._doc;
     });
-    res.json(resTemp('articleList', article));
+    res.json(resTemp({ articleList: article }));
   };
   if (articleId) {
     ArticleModel.findById(articleId, {
