@@ -6,5 +6,7 @@ module.exports = {
   //版本号
   version: 'v1',
   //前缀
-  baseUrl: '/api'
+  baseUrl: '/api',
+  //签名
+  SECRET: 'sdaskgjdflgfjgdfgjdfgjdfgj'
 };

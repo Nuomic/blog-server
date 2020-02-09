@@ -50,8 +50,8 @@ module.exports = (req, res) => {
     return parents;
   }
   const callback = (err, commentList) => {
-    total = comment.length;
-    comment = translateDataToTree(comment);
+    total = commentList.length;
+    commentList = translateDataToTree(commentList);
     if (err) {
       res.json(errTemp(err, ''));
       return;

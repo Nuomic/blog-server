@@ -4,7 +4,13 @@ const { Schema, model } = require('mongoose');
 const userSchema = Schema(
   {
     username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    password: {
+      type: String,
+      required: true,
+      set(val) {
+        return require('bcryptjs').hashSync(val, 10);
+      }
+    },
     email: { type: String, required: true },
     nickname: { type: String, required: true },
     phone_number: { type: String }

@@ -1,19 +1,29 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-
-var config = require('./config');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const { port, SECRET, dbUrl } = require('./config');
 // 引入 API  Router
-var routes = require('./routes');
+const routes = require('./routes');
 
-var app = express();
+const app = express();
 
-var staticPath = path.resolve(__dirname, 'public');
+const staticPath = path.resolve(__dirname, 'public');
 app.use(express.static(staticPath));
-app.use(cookieParser());
+app.use(cookieParser(SECRET));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(
+  session({
+    SECRET,
+    resave: false,
+    saveUninitialized: true,
+    store: new MongoStore({ url: dbUrl })
+  })
+);
+
 //允许 http://localhost:3000 跨域访问
 app.all('*', function(req, res, next) {
   const origin = 'http://' + req.hostname + ':3000';
@@ -37,4 +47,4 @@ app.all('*', function(req, res, next) {
 
 // API  Router 文件的调用
 routes(app);
-app.listen(config.port);
+app.listen(port);

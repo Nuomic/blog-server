@@ -27,12 +27,12 @@ module.exports = (req, res) => {
         },
         { $sort: { id: -1 } }
       ],
-      (err, articleList) => {
+      (err, categoryList) => {
         if (err) {
           res.json(errTemp(err, ''));
           return;
         }
-        res.json(resTemp({ articleList }));
+        res.json(resTemp({ categoryList }));
       }
     );
   }
