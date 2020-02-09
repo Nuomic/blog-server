@@ -1,6 +1,20 @@
 const { UserModel } = require('../../db');
-const { resTemp, errTemp } = require('../config');
-const filter = { password: 0, _v: 0 };
+const md5 = require('blueimp-md5');
+const { resTemp, errTemp, dataTemp } = require('../config');
 module.exports = (req, res) => {
-  const { username, password, userid } = req.body;
+  const { username, password } = req.body;
+  UserModel.findOne(
+    { username, password: md5(password) },
+    '-password -updatedAt',
+    (err, userInfo) => {
+      console.log('err', err);
+      console.log('userInfo', userInfo);
+      if (err) return res.json(errTemp(err, '登录失败'));
+      if (userInfo) {
+        res.json(resTemp({ userInfo: dataTemp(userInfo) }));
+      } else {
+        res.json(resTemp({ error: '用户名或密码错误' }));
+      }
+    }
+  );
 };

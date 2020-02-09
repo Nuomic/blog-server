@@ -12,7 +12,7 @@ const { dbUrl } = require('../config');
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-
+  useCreateIndex: true,
   keepAlive: true,
   // reconnectTries: Number.MAX_VALUE, // 总是尝试重新连接
   // reconnectInterval: 500, // 每500ms重新连接一次
