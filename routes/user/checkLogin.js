@@ -1,15 +1,15 @@
 const { UserModel } = require('../../db');
-const md5 = require('blueimp-md5');
+const jwt = require('jsonwebtoken');
+const { SECRET } = require('../../config');
 const { resTemp, errTemp, dataTemp } = require('../config');
 module.exports = (req, res) => {
-  const { username, password } = req.body;
-  console.log('========cookie==========', req.cookies);
-  console.log('==========session===============', req.session);
-  if (req.session.userInfo && req.cookies.sid) {
-    res.send('欢迎再一次访问。');
-    console.log('=================', req.session);
-  } else {
-    req.session.isLogin = true;
-    res.send('欢迎第一次访问。');
-  }
+  console.log('TOKEN', req.headers.authorization);
+  const TOKEN = String(req.headers.authorization)
+    .split(' ')
+    .pop();
+  const tokenData = jwt.verify(TOKEN, SECRET);
+  UserModel.findById(tokenData, '-password -updatedAt', (err, userInfo) => {
+    if (err) return res.json(errTemp(err, '失效'));
+    res.json(resTemp({ userInfo }));
+  });
 };

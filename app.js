@@ -2,8 +2,8 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+// const session = require('express-session');
+// const MongoStore = require('connect-mongo')(session);
 const { port, SECRET, dbUrl } = require('./config');
 // 引入 API  Router
 const routes = require('./routes');
@@ -15,14 +15,14 @@ app.use(express.static(staticPath));
 app.use(cookieParser(SECRET));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-  session({
-    SECRET,
-    resave: false,
-    saveUninitialized: true,
-    store: new MongoStore({ url: dbUrl })
-  })
-);
+// app.use(
+//   session({
+//     SECRET,
+//     resave: false,
+//     saveUninitialized: true,
+//     store: new MongoStore({ url: dbUrl })
+//   })
+// );
 
 //允许 http://localhost:3000 跨域访问
 app.all('*', function(req, res, next) {
