@@ -10,6 +10,7 @@ module.exports = async (req, res) => {
   const { articleId } = req.query;
   console.log('=====articleId==article=======', articleId);
   console.log('=============cookies=============', req.cookies);
+
   const Article = ArticleModel.aggregate()
     .lookup({
       from: 'categories',
@@ -42,30 +43,35 @@ module.exports = async (req, res) => {
     }).exec();
     current = current[0];
     if (err || !current) {
-      res.json(errTemp(err, ''));
-      return;
-    } else {
-      const index = article.findIndex(item => {
-        return item.id.toString() == current.id.toString();
-      });
-      if (index != 0) {
-        current.pre = {
-          id: article[index - 1].id,
-          title: article[index - 1].title
-        };
-      }
-      if (index != article.length - 1) {
-        current.next = {
-          id: article[index + 1].id,
-          title: article[index + 1].title
-        };
-      }
-      TagModel.find({ name: { $in: current.tags } }, (err, tag) => {
-        current.tagList = dataTemp(tag);
-        delete current.tags;
-        res.json(resTemp({ articleDetail: current }));
-      });
+      return res.json(errTemp(err, ''));
     }
+    ArticleModel.findByIdAndUpdate(
+      current.id,
+      { viewCount: ++current.viewCount },
+      err => {
+        if (!err) console.log(current.viewCount);
+      }
+    );
+    const index = article.findIndex(item => {
+      return item.id.toString() == current.id.toString();
+    });
+    if (index != 0) {
+      current.pre = {
+        id: article[index - 1].id,
+        title: article[index - 1].title
+      };
+    }
+    if (index != article.length - 1) {
+      current.next = {
+        id: article[index + 1].id,
+        title: article[index + 1].title
+      };
+    }
+    TagModel.find({ name: { $in: current.tags } }, (err, tag) => {
+      current.tagList = dataTemp(tag);
+      delete current.tags;
+      res.json(resTemp({ articleDetail: current }));
+    });
   };
   Article.exec(callback);
 };
