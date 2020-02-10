@@ -4,8 +4,14 @@ const { CommentModel } = require('../../db');
 module.exports = (req, res) => {
   console.log('req.body', req.body);
   const { parentId, articleId, ...value } = req.body;
-  console.log('11111', 11111);
   let comment = value;
+  if (value.commentId) {
+    const { commentId, likeCount } = value;
+    CommentModel.findByIdAndUpdate(commentId, { likeCount }, err => {
+      if (!err) res.json(resTemp());
+    });
+    return;
+  }
   if (!!parentId) comment = { parentId, ...comment };
   if (!!articleId) comment = { articleId, ...comment };
   CommentModel.create(comment, (err, comment) => {
