@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
         _id: 0,
         name: 1
       })
-      .match({ name: { $ne: '草稿' } });
+      .match({ name: { $ne: '未分类草稿' } });
   console.log('categoryList', categoryList);
   if (type.includes('2'))
     var tagList = await TagModel.aggregate().project({

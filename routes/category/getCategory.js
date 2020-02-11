@@ -15,7 +15,7 @@ module.exports = (req, res) => {
             as: 'article'
           }
         },
-        { $match: { name: { $ne: '草稿' } } },
+        { $match: { name: { $ne: '未分类草稿' } } },
         {
           $project: {
             id: '$_id',
