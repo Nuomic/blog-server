@@ -51,7 +51,6 @@ module.exports = (req, res) => {
     { $sort: { id: -1 } }
   ]);
   const callback = (err, article) => {
-    console.log('article', article);
     if (err) {
       res.json(errTemp(err, ''));
       return;
@@ -89,7 +88,8 @@ module.exports = (req, res) => {
         res.json(errTemp(err, ''));
         return;
       }
-      res.json(resTemp({ article: dataTemp(article) }));
+      if (status == 3) delete article._doc.categoryId;
+      res.json(resTemp({ article: dataTemp(article, 'categoryId') }));
     });
   } else if (!!categoryId) {
     article

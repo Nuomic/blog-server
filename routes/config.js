@@ -30,19 +30,17 @@ const errTemp = (err, customerErrorMessage) => {
     }
   };
 };
-const dataTemp = data => {
-  if (!Array.isArray(data)) {
-    let id = data._id;
-    delete data._doc._id;
-    delete data._doc.__v;
-    return { id, ...data._doc };
-  } else
-    return data.map(item => {
-      let id = item._id;
-      delete item._doc._id;
-      delete item._doc.__v;
-      return { id, ...item._doc };
-    });
+const dataTemp = (data, other) => {
+  const handleData = value => {
+    let id = value._id;
+    delete value._doc._id;
+    delete value._doc.__v;
+    if (other) delete value._doc[other];
+    return { id, ...value._doc };
+  };
+  return Array.isArray(data)
+    ? data.map(item => handleData(item))
+    : handleData(data);
 };
 // const getTemp = ()={
 

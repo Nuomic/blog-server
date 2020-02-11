@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
       as: 'categoryInfo'
     })
     .unwind('$categoryInfo')
-    .match({ status: { $ne: '1' } })
+    .match({ status: { $ne: '3' } })
     .project({
       id: '$_id',
       _id: 0,
