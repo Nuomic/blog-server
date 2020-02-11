@@ -1,5 +1,6 @@
 const { resTemp, errTemp, dataTemp } = require('../config');
-const { ArticleModel } = require('../../db');
+const { ArticleModel, TagModel } = require('../../db');
+const { Types } = require('mongoose');
 module.exports = (req, res) => {
   /* 文章获取列表
    *1.默认查找全部
@@ -40,6 +41,7 @@ module.exports = (req, res) => {
           name: '$categoryInfo.name',
           avatar: '$categoryInfo.avatar'
         },
+        tags: 1,
         status: 1,
         createdAt: 1,
         avatar: 1,
@@ -90,7 +92,13 @@ module.exports = (req, res) => {
       res.json(resTemp({ article: dataTemp(article) }));
     });
   } else if (!!categoryId) {
+    article
+      .match({ 'categoryInfo.id': Types.ObjectId(categoryId) })
+      .exec(callback);
   } else if (!!tagId) {
+    TagModel.findById(tagId).exec((err, tag) => {
+      if (tag) article.match({ tags: [tag.name] }).exec(callback);
+    });
   } else {
     if (status) article.match({ status }).exec(callback);
     else article.exec(callback);

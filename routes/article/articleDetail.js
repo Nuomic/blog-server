@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
       as: 'categoryInfo'
     })
     .unwind('$categoryInfo')
-    .match({ status: '1' })
+    .match({ status: { $ne: '1' } })
     .project({
       id: '$_id',
       _id: 0,
@@ -45,6 +45,7 @@ module.exports = async (req, res) => {
     if (err || !current) {
       return res.json(errTemp(err, ''));
     }
+    //文章每查询一次 view加 1
     ArticleModel.findByIdAndUpdate(
       current.id,
       { viewCount: ++current.viewCount },
