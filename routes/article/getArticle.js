@@ -88,8 +88,10 @@ module.exports = (req, res) => {
         res.json(errTemp(err, ''));
         return;
       }
-      if (status == 3) delete article._doc.categoryId;
-      res.json(resTemp({ article: dataTemp(article, 'categoryId') }));
+      const flag = String(article.categoryId) == '5e3d00cf765d392e685654b3';
+      res.json(
+        resTemp({ article: dataTemp(article, flag ? 'categoryId' : undefined) })
+      );
     });
   } else if (!!categoryId) {
     article
