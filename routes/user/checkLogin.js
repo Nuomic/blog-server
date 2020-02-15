@@ -3,13 +3,13 @@ const jwt = require('jsonwebtoken');
 const { SECRET } = require('../../config');
 const { resTemp, errTemp, dataTemp } = require('../config');
 module.exports = (req, res) => {
-  console.log('TOKEN', req.headers.authorization);
-  const TOKEN = String(req.headers.authorization)
-    .split(' ')
-    .pop();
+  const TOKEN = req.cookies.TOKEN;
+  if (!TOKEN) {
+    res.json(errTemp({}, '登录失效，请重新登录', '401', 'fail'));
+  }
   const tokenData = jwt.verify(TOKEN, SECRET);
-  UserModel.findById(tokenData, '-password -updatedAt', (err, userInfo) => {
-    if (err) return res.json(errTemp(err, '失效'));
-    res.json(resTemp({ userInfo }));
+  UserModel.findById(tokenData.id, '-password -updatedAt', (err, userInfo) => {
+    if (err) return res.json(errTemp(err, '登录失效，请重新登录', '401'));
+    res.json(resTemp({ userInfo: dataTemp(userInfo) }));
   });
 };

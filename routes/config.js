@@ -15,12 +15,12 @@ const resTemp = data => {
   };
   return res;
 };
-const errTemp = (err, customerErrorMessage) => {
-  console.log('err================', err);
+const errTemp = (err, customerErrorMessage, ErrorCode, fail) => {
   return {
     ResponseStatus: {
-      Ack: 'Success',
-      Timestamp: new Date()
+      Ack: fail || 'Success',
+      Timestamp: new Date(),
+      ErrorCode
     },
     returnStatus: {
       customerErrorMessage,

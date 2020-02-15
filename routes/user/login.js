@@ -22,6 +22,10 @@ module.exports = (req, res) => {
       //生成token
       const TOKEN = jwt.sign({ id: userInfo.id }, SECRET);
       console.log('TOKEN', TOKEN);
+      res.cookie('TOKEN', TOKEN, {
+        httpOnly: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000
+      });
       res.json(resTemp({ success: true, TOKEN }));
     } else {
       res.json(resTemp({ error: '用户名或密码错误' }));

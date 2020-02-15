@@ -11,8 +11,8 @@ module.exports = (req, res) => {
       }
     });
   } else {
-    ArticleModel.findByIdAndUpdate(id, value, err => {
-      if (!err) res.json(resTemp());
+    ArticleModel.findByIdAndUpdate(id, value, { new: true }, (err, article) => {
+      if (!err) res.json(resTemp({ article: dataTemp(article) }));
       else {
         res.json(errTemp(err, ''));
       }
