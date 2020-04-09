@@ -94,12 +94,14 @@ module.exports = (req, res) => {
       );
     });
   } else if (!!categoryId) {
-    article
-      .match({ 'categoryInfo.id': Types.ObjectId(categoryId) })
-      .exec(callback);
+    const match = { 'categoryInfo.id': Types.ObjectId(categoryId) };
+    if (status) match.status = status;
+    article.match(match).exec(callback);
   } else if (!!tagId) {
     TagModel.findById(tagId).exec((err, tag) => {
-      if (tag) article.match({ tags: [tag.name] }).exec(callback);
+      const match = { tags: [tag.name] };
+      if (status) match.status = status;
+      if (tag) article.match(match).exec(callback);
     });
   } else {
     if (status) article.match({ status }).exec(callback);
