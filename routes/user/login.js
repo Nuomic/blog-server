@@ -7,9 +7,6 @@ module.exports = (req, res) => {
   // console.log('session', req.session);
   console.log('cookies', req.cookies);
   UserModel.findOne({ username }, '-updatedAt', (err, userInfo) => {
-    console.log('username', username);
-    console.log('password', password);
-    console.log(' userInfo.password', userInfo.password);
     if (err) return res.json(errTemp(err, '登录失败'));
     if (!userInfo) {
       return res.json(resTemp({ error: '用户名或密码错误' }));
@@ -24,7 +21,7 @@ module.exports = (req, res) => {
       console.log('TOKEN', TOKEN);
       res.cookie('TOKEN', TOKEN, {
         httpOnly: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
       res.json(resTemp({ success: true, TOKEN }));
     } else {
