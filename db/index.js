@@ -7,6 +7,7 @@ const friendModel = require('./friendModel');
 const commentModel = require('./commentModel');
 const tagModel = require('./tagModel');
 const settingModel = require('./settingModel');
+const pageModel = require('./pageModel');
 const { dbUrl } = require('../config');
 //配置连接参数 断开重连
 const options = {
@@ -19,7 +20,7 @@ const options = {
   poolSize: 10, // 维护最多10个socket连接
   bufferMaxEntries: 0, // 如果没有连接立即返回错误，而不是等待重新连接
   connectTimeoutMS: 10000, // 10s后放弃重新连接
-  socketTimeoutMS: 45000 // 在45s不活跃后关闭sockets
+  socketTimeoutMS: 45000, // 在45s不活跃后关闭sockets
 };
 // 1.1 连接数据库
 connect(dbUrl, options);
@@ -44,3 +45,4 @@ exports.FriendModel = friendModel;
 exports.CommentModel = commentModel;
 exports.TagModel = tagModel;
 exports.SettingModel = settingModel;
+exports.PageModel = pageModel;
