@@ -10,6 +10,7 @@ module.exports = (req, res) => {
   const tokenData = jwt.verify(TOKEN, SECRET);
   UserModel.findById(tokenData.id, '-password -updatedAt', (err, userInfo) => {
     if (err) return res.json(errTemp(err, '登录失效，请重新登录', '401'));
-    res.json(resTemp({ userInfo: dataTemp(userInfo) }));
+    if (userInfo) res.json(resTemp({ userInfo: dataTemp(userInfo) }));
+    else res.json(errTemp({}, '登录失效，请重新登录', '401', 'fail'));
   });
 };

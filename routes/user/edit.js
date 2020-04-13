@@ -8,7 +8,7 @@ module.exports = (req, res) => {
       console.log('userInfo', userInfo);
       if (err) return res.json(errTemp(err, '数据库错误'));
       if (userInfo) {
-        res.json(resTemp({ msg: '修改成功' }));
+        res.json(resTemp({ msg: '修改密码成功，请重新登录！' }));
       } else {
         res.json(errTemp(err, '修改密码失败，请稍后再试！'));
       }
