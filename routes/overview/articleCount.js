@@ -1,6 +1,5 @@
-const { resTemp, errTemp, dataTemp } = require('../config');
-const { ArticleModel, CategoryModel } = require('../../db');
-module.exports = async (req, res) => {
+const { CategoryModel } = require('../../db');
+module.exports = async () => {
   const category = await CategoryModel.aggregate()
     .lookup({
       from: 'articles',
@@ -14,12 +13,14 @@ module.exports = async (req, res) => {
       name: 1,
       article: 1,
     });
-
   const categoryList = category.map((item) => {
     item.count = item.article.length;
     delete item.article;
     return item;
   });
-  console.log('categoryList', categoryList);
-  res.json(resTemp({ categoryList }));
+  const articleTotal = categoryList.reduce(
+    (pre, curr) => (pre += curr.count),
+    0
+  );
+  return { categoryList, articleTotal };
 };
