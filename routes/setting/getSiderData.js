@@ -5,23 +5,40 @@ const {
   TagModel,
   PageModel,
 } = require('../../db');
+const moment = require('moment');
 const { resTemp, errTemp } = require('../config');
 module.exports = async (req, res) => {
   const { pageName } = req.query;
   console.log('pageName', pageName);
   //通过侧边栏记录页面pv
-  PageModel.findOneAndUpdate(
-    { pageName },
-    {
-      $inc: { pv: 1 },
-    },
+  const date = moment().format('YYYY-MM-DD');
+  PageModel.findOne(
+    { date, 'pageInfo.pageName': pageName },
+    null,
     (err, page) => {
       if (err) return;
-      if (!page) {
-        PageModel.create({ pageName }, (err, page) => {
-          console.log('page', page);
-          if (err) return;
-        });
+      if (page) {
+        PageModel.updateOne(
+          { date, 'pageInfo.pageName': pageName },
+          { $inc: { 'pageInfo.$.pv': 1 } },
+          { upsert: true },
+          (err, page) => {
+            console.log('page', page);
+            if (err) return;
+          }
+        );
+      } else {
+        PageModel.updateOne(
+          { date },
+          {
+            $addToSet: { pageInfo: [{ pageName }] },
+          },
+          { upsert: true },
+          (err, page) => {
+            console.log('page', page);
+            if (err) return;
+          }
+        );
       }
     }
   );
