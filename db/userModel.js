@@ -9,11 +9,16 @@ const userSchema = Schema(
       required: true,
       set(val) {
         return require('bcryptjs').hashSync(val, 10);
-      }
+      },
     },
     email: { type: String, required: true },
     nickname: { type: String, required: true },
-    phone_number: { type: String }
+    phonenumber: { type: String },
+    avatar: {
+      type: String,
+      default:
+        'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    },
   },
   { timestamps: true }
 );
