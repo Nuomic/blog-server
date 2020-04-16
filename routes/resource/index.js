@@ -1,13 +1,12 @@
 const { Router } = require('express');
-var fs = require('fs');
-var multer = require('multer');
-var upload = multer({ dest: 'public' });
+const multipleFields = require('./multipleFields');
 const getResource = require('./getResource');
 const saveResource = require('./saveResource');
 const deleteResource = require('./deleteResource');
+
 const router = Router();
-// const filter = { password: 0, _v: 0 };
+
 module.exports = router;
 router.get('/list', getResource);
-router.post('/save' /* , upload.single('avatar') */, saveResource);
+router.post('/save', multipleFields, saveResource);
 router.post('/delete', deleteResource);

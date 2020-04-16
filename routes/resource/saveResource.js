@@ -1,47 +1,35 @@
-var multer = require('multer');
-var upload = multer({
-  storage: multer.diskStorage({
-    destination: function(req, file, cb) {
-      cb(null, '/public');
-    },
-    filename: function(req, file, cb) {
-      //file.originalname上传文件的原始文件名
-      var changedName = new Date().getTime() + '-' + file.originalname;
-      cb(null, changedName);
-    }
-  })
-});
-let multipleFields = upload.fields([
-  { name: 'avatar' },
-  { name: 'gallery', maxCount: 3 }
-]);
+const pathLib = require('path');
+const { ResourceModel } = require('../../db');
 module.exports = (req, res) => {
-  multipleFields(req, res, err => {
-    console.log(req.files);
-    if (!!err) {
-      console.log(err.message);
-      res.json({
-        code: '2000',
-        type: 'field',
-        msg: err.message
-      });
-      return;
-    }
-    var fileList = [];
-    for (let item in req.files) {
-      var fieldItem = req.files[item];
-      fieldItem.map(elem => {
-        fileList.push({
-          fieldname: elem.fieldname,
-          originalname: elem.originalname
+  const { file, body } = req;
+  //文件地址
+  const fullUrl =
+    req.protocol +
+    '://' +
+    req.get('host') +
+    file.destination.slice(6) +
+    '/' +
+    file.filename;
+  console.log('fullUrl', fullUrl);
+  const ext = pathLib.parse(file.originalname).ext;
+  ResourceModel.create(
+    {
+      ext,
+      type: body.folder,
+      // name: file.filename,
+      path: fullUrl,
+      isTrash: false,
+      originalname: file.originalname,
+    },
+    (err, file) => {
+      if (err) {
+        console.log('err', err);
+        return res.json({
+          errMsg: err,
+          status: 'error',
         });
-      });
+      }
+      res.json({ name: file.originalname, status: 'done', url: fullUrl });
     }
-    res.json({
-      code: '0000',
-      type: 'field',
-      fileList: fileList,
-      msg: ''
-    });
-  });
+  );
 };

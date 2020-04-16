@@ -1,14 +1,14 @@
 const { connect, connection } = require('mongoose');
-
-const userModel = require('./userModel');
-const articleModel = require('./articleModel');
-const categoryModel = require('./categoryModel');
-const friendModel = require('./friendModel');
-const commentModel = require('./commentModel');
-const tagModel = require('./tagModel');
-const settingModel = require('./settingModel');
-const pageModel = require('./pageModel');
 const { dbUrl } = require('../config');
+exports.UserModel = require('./userModel');
+exports.ArticleModel = require('./articleModel');
+exports.CategoryModel = require('./categoryModel');
+exports.FriendModel = require('./friendModel');
+exports.CommentModel = require('./commentModel');
+exports.TagModel = require('./tagModel');
+exports.SettingModel = require('./settingModel');
+exports.PageModel = require('./pageModel');
+exports.ResourceModel = require('./resourceModel');
 //配置连接参数 断开重连
 const options = {
   useNewUrlParser: true,
@@ -37,12 +37,3 @@ conn
   .on('disconnected', () => {
     console.log('断开连接');
   });
-
-exports.UserModel = userModel;
-exports.ArticleModel = articleModel;
-exports.CategoryModel = categoryModel;
-exports.FriendModel = friendModel;
-exports.CommentModel = commentModel;
-exports.TagModel = tagModel;
-exports.SettingModel = settingModel;
-exports.PageModel = pageModel;

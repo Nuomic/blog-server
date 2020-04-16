@@ -2,8 +2,6 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-// const session = require('express-session');
-// const MongoStore = require('connect-mongo')(session);
 const { port, SECRET, dbUrl } = require('./config');
 // 引入 API  Router
 const routes = require('./routes');
@@ -25,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // );
 
 //允许 http://localhost:3000 跨域访问
-app.all('*', function(req, res, next) {
+app.all('*', function (req, res, next) {
   const origin = req.headers.origin;
   console.log('origin', origin);
   res.header('Access-Control-Allow-Origin', origin);
