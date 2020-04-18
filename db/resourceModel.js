@@ -8,6 +8,10 @@ const resourceSchema = Schema({
   path: { type: String, required: true },
   isTrash: { type: Boolean, /* required: true, */ defalut: false },
   ext: { type: String, required: true },
+  encoding: { type: String, required: true },
+  mimetype: { type: String, required: true },
+  destination: { type: String, required: true },
+  size: { type: String, required: true },
 });
 //定义Model
 module.exports = model('resource', resourceSchema);

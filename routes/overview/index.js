@@ -2,7 +2,7 @@ const { Router } = require('express');
 const pageView = require('./pageView');
 const articleCount = require('./articleCount');
 const commCount = require('./commCount');
-const { resTemp, errTemp, dataTemp } = require('../config');
+const { resTemp } = require('../config');
 const router = Router();
 module.exports = router;
 
@@ -12,6 +12,7 @@ router.get('/', async (req, res) => {
   const friendTotal = await commCount('Friend');
   const tagTotal = await commCount('Tag');
   const categoryTotal = await commCount('Category');
+  const resourceTotal = await commCount('Resource');
   const page = await pageView();
   res.json(
     resTemp({
@@ -21,6 +22,7 @@ router.get('/', async (req, res) => {
       friendTotal,
       tagTotal,
       categoryTotal,
+      resourceTotal,
     })
   );
 });

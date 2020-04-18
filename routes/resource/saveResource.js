@@ -2,6 +2,7 @@ const pathLib = require('path');
 const { ResourceModel } = require('../../db');
 module.exports = (req, res) => {
   const { file, body } = req;
+  console.log('file', file);
   //文件地址
   const fullUrl =
     req.protocol +
@@ -14,12 +15,10 @@ module.exports = (req, res) => {
   const ext = pathLib.parse(file.originalname).ext;
   ResourceModel.create(
     {
+      ...file,
       ext,
       type: body.folder,
-      // name: file.filename,
-      path: fullUrl,
       isTrash: false,
-      originalname: file.originalname,
     },
     (err, file) => {
       if (err) {
