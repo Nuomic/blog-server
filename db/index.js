@@ -1,5 +1,5 @@
 const { connect, connection } = require('mongoose');
-const { dbUrl } = require('../config');
+const { dbInfo } = require('../config');
 exports.UserModel = require('./userModel');
 exports.ArticleModel = require('./articleModel');
 exports.CategoryModel = require('./categoryModel');
@@ -23,6 +23,11 @@ const options = {
   socketTimeoutMS: 45000, // 在45s不活跃后关闭sockets
 };
 // 1.1 连接数据库
+const dbUrl = `mongodb://${
+  dbInfo.username && dbInfo.password
+    ? dbInfo.username + ':' + dbInfo.password + '@'
+    : ''
+}${dbInfo.localhost}:${dbInfo.dbport}/${dbInfo.data}`;
 connect(dbUrl, options);
 //1.2 获取连接对象
 const conn = connection;

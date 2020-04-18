@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const { port, SECRET, dbUrl } = require('./config');
+const { port, SECRET } = require('./config');
 // 引入 API  Router
 const routes = require('./routes');
 
@@ -10,7 +10,7 @@ const app = express();
 
 const staticPath = path.resolve(__dirname, 'public');
 app.use(express.static(staticPath));
-app.use(cookieParser(SECRET));
+app.use(cookieParser(SECRET || 'adab2f8e907154131d30fedb4ff0133'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(
@@ -46,4 +46,4 @@ app.all('*', function (req, res, next) {
 
 // API  Router 文件的调用
 routes(app);
-app.listen(port);
+app.listen(port || 3001);
