@@ -1,6 +1,7 @@
 # blog-server
 1.克隆到本地
 2. 在更目录添加一个 config.js 文件 具体如下
+```js
 module.exports = {
   //端口 默认40000 不更改可不配置
   port: 4000,
@@ -24,6 +25,6 @@ module.exports = {
   },
   domain: 'localhost:4000', //当前域名
 };
-
+```
 3. npm i 安装依赖
 4. npm start 启动server
