@@ -11,8 +11,8 @@ const userSchema = Schema(
         return require('bcryptjs').hashSync(val, 10);
       },
     },
-    email: { type: String, required: true },
-    nickname: { type: String, required: true },
+    email: { type: String /* , required: true */ },
+    nickname: { type: String /* , required: true */ },
     phonenumber: { type: String },
     avatar: {
       type: String,

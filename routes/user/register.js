@@ -9,7 +9,6 @@ module.exports = (req, res) => {
     } else {
       UserModel.create({ username, ...value }, (err, userInfo) => {
         if (err) return res.json(errTemp(err, ''));
-        res.cookie('user_id', userInfo._id);
         res.json(resTemp({ userInfo: dataTemp(userInfo) }));
       });
     }
