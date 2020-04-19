@@ -9,7 +9,7 @@ const routes = require('./routes');
 const app = express();
 
 const staticPath = path.resolve(__dirname, 'public');
-app.use(express.static(staticPath));
+app.use('/public', express.static(staticPath));
 app.use(cookieParser(SECRET || 'adab2f8e907154131d30fedb4ff0133'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

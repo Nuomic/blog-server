@@ -1,16 +1,14 @@
 const pathLib = require('path');
+const { resTemp, errTemp, dataTemp } = require('../config');
 const { ResourceModel } = require('../../db');
+const { domain } = require('../../config');
 module.exports = (req, res) => {
   const { file, body } = req;
   console.log('file', file);
   //文件地址
   const fullUrl =
-    req.protocol +
-    '://' +
-    req.get('host') +
-    file.destination.slice(6) +
-    '/' +
-    file.filename;
+    req.protocol + '://' + domain + file.destination + '/' + file.filename;
+
   console.log('fullUrl', fullUrl);
   const ext = pathLib.parse(file.originalname).ext;
   ResourceModel.create(
@@ -19,6 +17,7 @@ module.exports = (req, res) => {
       ext,
       type: body.folder,
       isTrash: false,
+      editTime: new Date(),
     },
     (err, file) => {
       if (err) {
@@ -28,7 +27,11 @@ module.exports = (req, res) => {
           status: 'error',
         });
       }
-      res.json({ name: file.originalname, status: 'done', url: fullUrl });
+      res.json({
+        ...dataTemp(file),
+        status: 'done',
+        path: fullUrl,
+      });
     }
   );
 };

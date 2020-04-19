@@ -12,6 +12,8 @@ const resourceSchema = Schema({
   mimetype: { type: String, required: true },
   destination: { type: String, required: true },
   size: { type: String, required: true },
+  filename: { type: String, required: true },
+  editTime: { type: Date, required: true },
 });
 //定义Model
 module.exports = model('resource', resourceSchema);

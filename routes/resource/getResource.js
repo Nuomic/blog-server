@@ -1,5 +1,7 @@
 const { resTemp, errTemp, dataTemp } = require('../config');
 const { ResourceModel } = require('../../db');
+const { domain } = require('../../config');
+
 module.exports = (req, res) => {
   ResourceModel.find()
     .sort({ type: -1 })
@@ -7,13 +9,14 @@ module.exports = (req, res) => {
       if (err) {
         return res.json(errTemp(err, '数据库出错'));
       }
-      const baseUrl = req.protocol + '://' + req.get('host');
+      console.log('obj===================ect', req.get('host'));
+      const baseUrl = req.protocol + '://' + domain + '/';
 
       const resourceList = dataTemp(resource).map((item) => {
-        item.path = baseUrl + item.destination.slice(6) + '/' + item.name;
+        item.path = baseUrl + item.destination + '/' + item.filename;
         return item;
       });
-      console.log('resourceList', resourceList);
+      // console.log('resourceList', resourceList);
       res.json(resTemp({ resourceList }));
     });
 };
