@@ -50,4 +50,9 @@ module.exports = [
     router: require('./routes/overview'),
     name: '后台总览',
   },
+  {
+    path: '/portfolio',
+    router: require('./routes/portfolio'),
+    name: '作品展示',
+  },
 ];

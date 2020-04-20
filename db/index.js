@@ -9,6 +9,7 @@ exports.TagModel = require('./tagModel');
 exports.SettingModel = require('./settingModel');
 exports.PageModel = require('./pageModel');
 exports.ResourceModel = require('./resourceModel');
+exports.PortfolioModel = require('./portfolioModel');
 //配置连接参数 断开重连
 const options = {
   useNewUrlParser: true,
