@@ -15,16 +15,16 @@ module.exports = (req, res) => {
         from: 'comments',
         localField: '_id',
         foreignField: 'articleId',
-        as: 'comments'
-      }
+        as: 'comments',
+      },
     },
     {
       $lookup: {
         from: 'categories',
         localField: 'categoryId',
         foreignField: '_id',
-        as: 'categoryInfo'
-      }
+        as: 'categoryInfo',
+      },
     },
     { $unwind: '$categoryInfo' },
     {
@@ -39,23 +39,23 @@ module.exports = (req, res) => {
         categoryInfo: {
           id: '$categoryInfo._id',
           name: '$categoryInfo.name',
-          avatar: '$categoryInfo.avatar'
+          avatar: '$categoryInfo.avatar',
         },
         tags: 1,
         status: 1,
         createdAt: 1,
         avatar: 1,
-        commentCount: { $size: '$comments' }
-      }
+        commentCount: { $size: '$comments' },
+      },
     },
-    { $sort: { id: -1 } }
+    { $sort: { id: -1 } },
   ]);
   const callback = (err, article) => {
     if (err) {
       res.json(errTemp(err, ''));
       return;
     }
-    article.map(item => {
+    article.map((item) => {
       item.content = item.content
         .replace(/(\*\*|__)(.*?)(\*\*|__)/g, '') //全局匹配内粗体
         .replace(/\!\[[\s\S]*?\]\([\s\S]*?\)/g, '') //全局匹配图片
@@ -82,7 +82,7 @@ module.exports = (req, res) => {
       updatedAt: 0,
       createdAt: 0,
       viewCount: 0,
-      likeCount: 0
+      likeCount: 0,
     }).exec((err, article) => {
       if (err) {
         res.json(errTemp(err, ''));
@@ -99,7 +99,8 @@ module.exports = (req, res) => {
     article.match(match).exec(callback);
   } else if (!!tagId) {
     TagModel.findById(tagId).exec((err, tag) => {
-      const match = { tags: [tag.name] };
+      console.log('==============tag', tag);
+      const match = { tags: { $in: [tag.name] } };
       if (status) match.status = status;
       if (tag) article.match(match).exec(callback);
     });

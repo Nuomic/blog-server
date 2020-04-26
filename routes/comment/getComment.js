@@ -9,28 +9,26 @@ module.exports = (req, res) => {
    */
   const { articleId, all } = req.query;
   console.log('=============cookies=============', req.cookies);
-  const commentList = CommentModel.aggregate()
-    .sort({ _id: -1 })
-    .project({
-      id: '$_id',
-      _id: 0,
-      parentId: 1,
-      articleId: 1,
-      parentId: 1,
-      isMine: 1,
-      avatar: 1,
-      dislikeCount: 1,
-      likeCount: 1,
-      content: 1,
-      nickname: 1,
-      email: 1,
-      date: '$createdAt'
-    });
+  const commentList = CommentModel.aggregate().sort({ _id: -1 }).project({
+    id: '$_id',
+    _id: 0,
+    parentId: 1,
+    articleId: 1,
+    parentId: 1,
+    isMine: 1,
+    avatar: 1,
+    dislikeCount: 1,
+    likeCount: 1,
+    content: 1,
+    nickname: 1,
+    email: 1,
+    date: '$createdAt',
+  });
   function translateDataToTree(data) {
-    let parents = data.filter(value => value.parentId == null);
-    let children = data.filter(value => value.parentId != null);
+    let parents = data.filter((value) => value.parentId == null);
+    let children = data.filter((value) => value.parentId != null);
     let translator = (parents, children) => {
-      parents.forEach(parent => {
+      parents.forEach((parent) => {
         children.forEach((current, index) => {
           if (current.parentId.toString() === parent.id.toString()) {
             let temp = JSON.parse(JSON.stringify(children));
@@ -66,7 +64,7 @@ module.exports = (req, res) => {
         from: 'articles',
         localField: 'articleId',
         foreignField: '_id',
-        as: 'articleInfo'
+        as: 'articleInfo',
       })
       .unwind({ path: '$articleInfo', preserveNullAndEmptyArrays: true })
       .project({
@@ -74,14 +72,14 @@ module.exports = (req, res) => {
         parentId: 1,
         articleInfo: {
           id: '$articleInfo._id',
-          title: 1
+          title: 1,
         },
         nickname: 1,
         email: 1,
         date: 1,
         content: 1,
         avatar: 1,
-        isMine: 1
+        isMine: 1,
       })
       .exec((err, commentList) => {
         if (err) {

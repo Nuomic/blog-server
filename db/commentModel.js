@@ -12,10 +12,10 @@ const commentSchema = Schema(
     avatar: {
       type: String,
       default:
-        'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
+        'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
     },
-    dislikeCount: { type: Number, default: 0 },
-    likeCount: { type: Number, default: 0 }
+    // dislikeCount: { type: Number, default: 0 },
+    likeCount: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

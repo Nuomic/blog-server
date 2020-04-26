@@ -7,7 +7,6 @@ const changeStatus = require('./changeResourceStatus');
 const download = require('./download');
 
 const router = Router();
-
 module.exports = router;
 router.get('/list', getResource);
 router.post('/save', multipleFields, saveResource);

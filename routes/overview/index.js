@@ -13,6 +13,7 @@ router.get('/', async (req, res) => {
   const tagTotal = await commCount('Tag');
   const categoryTotal = await commCount('Category');
   const resourceTotal = await commCount('Resource');
+  const portfolioTotal = await commCount('Portfolio');
   const page = await pageView();
   res.json(
     resTemp({
@@ -23,6 +24,7 @@ router.get('/', async (req, res) => {
       tagTotal,
       categoryTotal,
       resourceTotal,
+      portfolioTotal,
     })
   );
 });

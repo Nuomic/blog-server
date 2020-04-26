@@ -13,16 +13,6 @@ app.use('/public', express.static(staticPath));
 app.use(cookieParser(SECRET || 'adab2f8e907154131d30fedb4ff0133'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(
-//   session({
-//     SECRET,
-//     resave: false,
-//     saveUninitialized: true,
-//     store: new MongoStore({ url: dbUrl })
-//   })
-// );
-
-//允许 http://localhost:3000 跨域访问
 app.all('*', function (req, res, next) {
   const origin = req.headers.origin;
   console.log('origin', origin);
